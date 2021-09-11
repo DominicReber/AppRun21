@@ -1,11 +1,17 @@
 package com.apprun;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.JsonWriter;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -17,11 +23,17 @@ import com.apprun.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private SensorManager mSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        log("kflskdsfl");
     }
 
     @Override
@@ -72,5 +86,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    private void log(String solution) {
+        Intent intent = new Intent("ch.apprun.intent.LOG");
+        if (getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
+            Toast.makeText(this, "Logbook App not Installed", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+// Achtung, je nach App wird etwas anderes eingetragen
+        String logmessage = "{\n" +
+                " \"task\": \"Metalldetektor\",\n" +
+                " \"solution\": \"" + solution + "\"\n" +
+                "}\n";
+        intent.putExtra("ch.apprun.logmessage", logmessage);
+        startActivity(intent);
     }
 }
