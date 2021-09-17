@@ -134,21 +134,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        TextView tw = findViewById(R.id.textview_first);
-        switch (accuracy) {
-            case 0:
-
-                tw.setText("Unreliable");
-                break;
-            case 1:
-                tw.setText("Low accuracy");
-                break;
-            case 2:
-                tw.setText("Medium accuracy");
-                break;
-            case 3:
-                tw.setText("High accuracy");
-                break;
-        }
     }
 }
