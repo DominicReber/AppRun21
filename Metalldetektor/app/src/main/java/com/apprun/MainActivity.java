@@ -32,7 +32,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.List;
 
@@ -59,64 +62,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    protected void activateSensor() {
-        if(sensorActive){
-            sensorActive = false;
-            ProgressBar pbar = findViewById(R.id.progressBar);
-            pbar.setProgress(pbar.getProgress() - 5);
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        }
-        else if(!sensorActive){
-            sensorActive = true;
-            ProgressBar pbar = findViewById(R.id.progressBar);
-            pbar.setProgress(pbar.getProgress()+5);
+        /*
+         * Wenn der magnetFieldSensor gefunden wurde, melden wir uns für Updates
+         * an.
+         */
 
-
-        }
     }
-
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onPause() {
+        super.onPause();
+        /*
+         * Um Resourcen zu sparen melden wir uns beim verlassen der Activity
+         * wieder vom Sensor Manager ab.
+         */
+
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    private void log(String solution) {
-        Intent intent = new Intent("ch.apprun.intent.LOG");
-        if (getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
-            Toast.makeText(this, "Logbook App not Installed", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-
-// Achtung, je nach App wird etwas anderes eingetragen
-        String logmessage = "{\n" +
-                " \"task\": \"Metalldetektor\",\n" +
-                " \"solution\": \"" + solution + "\"\n" +
-                "}\n";
-        intent.putExtra("ch.apprun.logmessage", logmessage);
-        startActivity(intent);
-    }
-
 
     // SensorEventListener:
 
@@ -156,5 +121,48 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.add("Log");
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                integrator.setCaptureActivity(OurCaptureActivity.class);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                integrator.setOrientationLocked(false);
+                integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
+                integrator.initiateScan();
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == IntentIntegrator.REQUEST_CODE && resultCode == RESULT_OK) {
+            Bundle extras = intent.getExtras();
+            log(extras.getString(Intents.Scan.RESULT));
+        }
+    }
+
+    private void log(String qrCode) {
+        Intent intent = new Intent("ch.apprun.intent.LOG");
+        JSONObject log = new JSONObject();
+
+        try {
+            log.put("task", "MetallDetektor");
+            log.put("solution", qrCode);
+        } catch (JSONException e) {
+        }
+
+        intent.putExtra("ch.apprun.logmessage", log.toString());
+        startActivity(intent);
     }
 }
