@@ -3,6 +3,8 @@ package com.apprun;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -128,7 +130,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 ProgressBar pbar = findViewById(R.id.progressBar);
                 double pbarPercentage = 1.6 * (int) betrag - 60;
                 pbar.setProgress((int) pbarPercentage);
+                updateProgressBarColor(pbar);
             }
+        }
+    }
+
+    /**
+     * Changes the color of the given ProgressBar based on the progress
+     * - green: 0% - 29%
+     * - yellow: 30% - 79%
+     * - red: 80% - 100%
+     *
+     * @param pbar ProgressBar
+     */
+    private void updateProgressBarColor(ProgressBar pbar) {
+        int percentage = pbar.getProgress();
+        if (percentage < 30) {
+            pbar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        } else if (percentage < 80) {
+            pbar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+        } else {
+            pbar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         }
     }
 
