@@ -155,26 +155,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 double betrag = Math.sqrt(mag[0] * mag[0] + mag[1] * mag[1] + mag[2] *
                         mag[2]);
                 ProgressBar pbar = findViewById(R.id.progressBar);
-
-                pbar.setProgress((int) betrag);
+                double pbarPercentage = 1.6 * (int) betrag - 60;
+                pbar.setProgress((int) pbarPercentage);
             }
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        TextView tw = findViewById(R.id.textview_first);
         switch (accuracy) {
             case 0:
-                System.out.println("Unreliable");
+
+                tw.setText("Unreliable");
                 break;
             case 1:
-                System.out.println("Low accuracy");
+                tw.setText("Low accuracy");
                 break;
             case 2:
-                System.out.println("Medium accuracy");
+                tw.setText("Medium accuracy");
                 break;
             case 3:
-                System.out.println("High accuracy");
+                tw.setText("High accuracy");
                 break;
         }
     }
