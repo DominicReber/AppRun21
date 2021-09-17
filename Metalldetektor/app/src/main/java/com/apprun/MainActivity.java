@@ -90,14 +90,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         synchronized (this) {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 float[] mag = sensorEvent.values;
-                double betrag = Math.sqrt(mag[0] * mag[0] + mag[1] * mag[1] + mag[2] *
-                        mag[2]);
+                double betrag = Math.sqrt(mag[0] * mag[0] + mag[1] * mag[1] + mag[2] * mag[2]);
                 ProgressBar pbar = findViewById(R.id.progressBar);
                 double pbarPercentage = 1.6 * (int) betrag - 60;
                 pbar.setProgress((int) pbarPercentage);
+                updateStrengthTextView(betrag);
                 updateProgressBarColor(pbar);
             }
         }
+    }
+
+    /**
+     * Updates the TextView with the current magnetic strength
+     *
+     * @param strength strength of magnetic field
+     */
+    private void updateStrengthTextView(double strength) {
+        long roundedStrength = Math.round(strength);
+        TextView textView = (TextView) findViewById(R.id.strengthTextView);
+        textView.setText(String.format("Stärke: %s", roundedStrength));
     }
 
     /**
