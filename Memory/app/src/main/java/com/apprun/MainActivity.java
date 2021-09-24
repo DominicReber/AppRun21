@@ -1,5 +1,6 @@
 package com.apprun;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -14,6 +15,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.apprun.databinding.ActivityMainBinding;
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,5 +75,32 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    public void takeQrCodePicture() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setCaptureActivity(MyCaptureActivity.class);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+        integrator.setOrientationLocked(false);
+        integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
+        integrator.initiateScan();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentIntegrator.REQUEST_CODE
+                && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            String path = extras.getString(
+                    Intents.Scan.RESULT_BARCODE_IMAGE_PATH);
+
+            // Ein Bitmap zur Darstellung erhalten wir so:
+            // Bitmap bmp = BitmapFactory.decodeFile(path)
+
+            String code = extras.getString(
+                    Intents.Scan.RESULT);
+        }
     }
 }
