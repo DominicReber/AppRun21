@@ -1,30 +1,31 @@
 package com.apprun;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.apprun.databinding.ActivityMainBinding;
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 
-import android.view.Menu;
-import android.view.MenuItem;
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
+    private String tmpImagePath;
+    private String tmpSolutionWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +36,58 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // TODO: Add new QR-Code Pair
+            }
+        });
+
+        Button button = (Button) findViewById(R.id.button_1);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeQrCodePicture(R.id.image_1, R.id.text_view_1);
+            }
+        });
+
+        Button button2 = (Button) findViewById(R.id.button_2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeQrCodePicture(R.id.image_2, R.id.text_view_2);
+            }
+        });
+
+        Button button3 = (Button) findViewById(R.id.button_3);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeQrCodePicture(R.id.image_3, R.id.text_view_3);
+            }
+        });
+
+        Button button4 = (Button) findViewById(R.id.button_4);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeQrCodePicture(R.id.image_4, R.id.text_view_4);
+            }
+        });
+
+        Button button5 = (Button) findViewById(R.id.button_5);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeQrCodePicture(R.id.image_5, R.id.text_view_5);
+            }
+        });
+
+        Button button6 = (Button) findViewById(R.id.button_6);
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeQrCodePicture(R.id.image_6, R.id.text_view_6);
             }
         });
     }
@@ -80,13 +124,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        return true;
     }
 
-
-    public void takeQrCodePicture() {
+    public void takeQrCodePicture(int imageViewId, int textViewId) {
+        currentImageViewId = imageViewId;
+        currentTextViewId = textViewId;
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(MyCaptureActivity.class);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
@@ -95,20 +138,27 @@ public class MainActivity extends AppCompatActivity {
         integrator.initiateScan();
     }
 
+    private int currentImageViewId;
+    private int currentTextViewId;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentIntegrator.REQUEST_CODE
                 && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            String path = extras.getString(
-                    Intents.Scan.RESULT_BARCODE_IMAGE_PATH);
+            String path = extras.getString(Intents.Scan.RESULT_BARCODE_IMAGE_PATH);
 
             // Ein Bitmap zur Darstellung erhalten wir so:
             // Bitmap bmp = BitmapFactory.decodeFile(path)
 
             String code = extras.getString(
                     Intents.Scan.RESULT);
+
+            ImageView iv = findViewById(currentImageViewId);
+            TextView tv = findViewById(currentTextViewId);
+            iv.setImageURI(Uri.fromFile(new File(path)));
+            tv.setText(code);
         }
     }
 }
