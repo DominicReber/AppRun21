@@ -18,14 +18,19 @@ import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
-    private String tmpImagePath;
-    private String tmpSolutionWord;
+    private List<QRCodePair> qrCodePairs = new ArrayList<>();
+    private int currentPairPosition;
+    private String currentType;
+    private int currentImageViewId;
+    private int currentTextViewId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +48,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        qrCodePairs.add(new QRCodePair());
+        qrCodePairs.add(new QRCodePair());
+        qrCodePairs.add(new QRCodePair());
+
         Button button = (Button) findViewById(R.id.button_1);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_1, R.id.text_view_1);
+                takeQrCodePicture(R.id.image_1, R.id.text_view_1, 0, "left");
             }
         });
-
         Button button2 = (Button) findViewById(R.id.button_2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_2, R.id.text_view_2);
+                takeQrCodePicture(R.id.image_2, R.id.text_view_2, 0, "right");
             }
         });
 
@@ -63,15 +71,14 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_3, R.id.text_view_3);
+                takeQrCodePicture(R.id.image_3, R.id.text_view_3, 1, "left");
             }
         });
-
         Button button4 = (Button) findViewById(R.id.button_4);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_4, R.id.text_view_4);
+                takeQrCodePicture(R.id.image_4, R.id.text_view_4, 1, "right");
             }
         });
 
@@ -79,15 +86,14 @@ public class MainActivity extends AppCompatActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_5, R.id.text_view_5);
+                takeQrCodePicture(R.id.image_5, R.id.text_view_5, 2, "left");
             }
         });
-
         Button button6 = (Button) findViewById(R.id.button_6);
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_6, R.id.text_view_6);
+                takeQrCodePicture(R.id.image_6, R.id.text_view_6, 2, "right");
             }
         });
     }
@@ -127,9 +133,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void takeQrCodePicture(int imageViewId, int textViewId) {
+    public void takeQrCodePicture(int imageViewId, int textViewId, int pairPosition, String type) {
         currentImageViewId = imageViewId;
         currentTextViewId = textViewId;
+        this.currentPairPosition = pairPosition;
+        currentType = type;
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(MyCaptureActivity.class);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
@@ -137,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
         integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
         integrator.initiateScan();
     }
-
-    private int currentImageViewId;
-    private int currentTextViewId;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -159,6 +164,17 @@ public class MainActivity extends AppCompatActivity {
             TextView tv = findViewById(currentTextViewId);
             iv.setImageURI(Uri.fromFile(new File(path)));
             tv.setText(code);
+            switch (currentType) {
+                case "left":
+                    qrCodePairs.get(currentPairPosition).setFirstCodeImagePath(path);
+                    qrCodePairs.get(currentPairPosition).setFirstCodeSolutionWord(code);
+                    break;
+                case "right":
+                    qrCodePairs.get(currentPairPosition).setSecondCodeImagePath(path);
+                    qrCodePairs.get(currentPairPosition).setSecondCodeSolutionWord(code);
+                    break;
+            }
+
         }
     }
 }
