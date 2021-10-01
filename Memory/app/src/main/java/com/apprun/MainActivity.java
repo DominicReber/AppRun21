@@ -3,6 +3,7 @@ package com.apprun;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.JsonWriter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.apprun.databinding.ActivityMainBinding;
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONStringer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -175,6 +180,27 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
+        }
+    }
+
+    public String getDataForLogbuch() {
+        try {
+            JSONStringer stringer = new JSONStringer();
+            stringer.array();
+
+            for (QRCodePair pair : qrCodePairs) {
+                    stringer
+                        .array()
+                            .value(pair.getFirstCodeSolutionWord())
+                            .value(pair.getSecondCodeSolutionWord())
+                        .endArray();
+            }
+
+            stringer.endArray();
+            return stringer.toString();
+        } catch (JSONException e) {
+            System.err.println("Something went wrong! Returning an empty array ...");
+            return "[]";
         }
     }
 }
