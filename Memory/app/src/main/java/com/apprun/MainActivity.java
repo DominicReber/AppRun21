@@ -20,6 +20,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import java.io.File;
@@ -111,7 +112,10 @@ public class MainActivity extends AppCompatActivity {
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
+                if ("Log".equals(item.getTitle())) {
+                    log();
+                    return true;
+                }
                 return false;
             }
         });
@@ -183,24 +187,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getDataForLogbuch() {
+    private void log() {
+        Intent intent = new Intent("ch.apprun.intent.LOG");
+        JSONObject log = new JSONObject();
+
         try {
-            JSONStringer stringer = new JSONStringer();
-            stringer.array();
-
-            for (QRCodePair pair : qrCodePairs) {
-                    stringer
-                        .array()
-                            .value(pair.getFirstCodeSolutionWord())
-                            .value(pair.getSecondCodeSolutionWord())
-                        .endArray();
-            }
-
-            stringer.endArray();
-            return stringer.toString();
+            log.put("task", "Memory");
+            log.put("solution", getDataForLogbuch());
         } catch (JSONException e) {
-            System.err.println("Something went wrong! Returning an empty array ...");
-            return "[]";
+            System.err.println("Something went wrong while building the log!");
+            System.err.println(e.getMessage());
         }
+
+        intent.putExtra("ch.apprun.logmessage", log.toString());
+        startActivity(intent);
+    }
+
+    /**
+     * Takes the data from the scanned QR-Codes and transforms it into the following format:
+     * [["word1","word2"],["word1","word2"],["word1","word2"],...]
+     *
+     * @return A JSONArray
+     */
+    private JSONArray getDataForLogbuch() {
+        JSONArray solutionJson = new JSONArray();
+
+        for (QRCodePair pair : qrCodePairs) {
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(pair.getFirstCodeSolutionWord());
+            jsonArray.put(pair.getSecondCodeSolutionWord());
+
+            solutionJson.put(jsonArray);
+        }
+        return solutionJson;
     }
 }
