@@ -36,7 +36,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/example_pic"
+                        android:src="@drawable/placeholder_img"
                         android:contentDescription="@string/qr_code_content_description" />
 
                     <TextView
@@ -75,7 +75,7 @@
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/qr_code_content_description"
                         android:scaleType="fitXY"
-                        android:src="@drawable/example_pic" />
+                        android:src="@drawable/placeholder_img" />
 
                     <TextView
                         android:id="@+id/text_view_2"
@@ -122,7 +122,7 @@
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/qr_code_content_description"
                         android:scaleType="fitXY"
-                        android:src="@drawable/example_pic" />
+                        android:src="@drawable/placeholder_img" />
 
                     <TextView
                         android:id="@+id/text_view_3"
@@ -160,7 +160,7 @@
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/qr_code_content_description"
                         android:scaleType="fitXY"
-                        android:src="@drawable/example_pic" />
+                        android:src="@drawable/placeholder_img" />
 
                     <TextView
                         android:id="@+id/text_view_4"
@@ -206,7 +206,7 @@
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/qr_code_content_description"
                         android:scaleType="fitXY"
-                        android:src="@drawable/example_pic" />
+                        android:src="@drawable/placeholder_img" />
 
                     <TextView
                         android:id="@+id/text_view_5"
@@ -244,7 +244,7 @@
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/qr_code_content_description"
                         android:scaleType="fitXY"
-                        android:src="@drawable/example_pic" />
+                        android:src="@drawable/placeholder_img" />
 
                     <TextView
                         android:id="@+id/text_view_6"
