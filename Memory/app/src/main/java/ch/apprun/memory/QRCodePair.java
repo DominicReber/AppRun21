@@ -1,4 +1,4 @@
-package com.apprun;
+package ch.apprun.memory;
 
 public class QRCodePair {
     private String firstCodeImagePath;

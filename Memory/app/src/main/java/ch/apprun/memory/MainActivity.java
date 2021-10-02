@@ -1,9 +1,8 @@
-package com.apprun;
+package ch.apprun.memory;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.JsonWriter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.AppBarConfiguration;
 
+import com.apprun.R;
 import com.apprun.databinding.ActivityMainBinding;
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -21,22 +20,37 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
     private List<QRCodePair> qrCodePairs = new ArrayList<>();
-    private int currentPairPosition;
-    private String currentType;
-    private int currentImageViewId;
-    private int currentTextViewId;
+
+    /**
+     * Variable to store the pair to which the last scanned QR Code belongs.
+     * The first pair is 0.
+     */
+    private int pairNumber;
+
+    /**
+     * Variable to store the position of the last scanned QR Code in its pair.
+     * It can either be "first" or "second"
+     */
+    private String qrCodePosition;
+
+    /**
+     * Variable to store the id of the ImageView belonging to the last scanned QR Code.
+     */
+    private int imageViewId;
+
+    /**
+     * Variable to store the id of the TextView belonging to the last scanned QR Code.
+     */
+    private int textViewId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,59 +61,55 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Add new QR-Code Pair
-            }
-        });
-
         qrCodePairs.add(new QRCodePair());
         qrCodePairs.add(new QRCodePair());
         qrCodePairs.add(new QRCodePair());
 
+        // First pair
         Button button = (Button) findViewById(R.id.button_1);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_1, R.id.text_view_1, 0, "left");
+                takeQrCodePicture(R.id.image_1, R.id.text_view_1, 0, "first");
             }
         });
         Button button2 = (Button) findViewById(R.id.button_2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_2, R.id.text_view_2, 0, "right");
+                takeQrCodePicture(R.id.image_2, R.id.text_view_2, 0, "second");
             }
         });
 
+        // Second pair
         Button button3 = (Button) findViewById(R.id.button_3);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_3, R.id.text_view_3, 1, "left");
+                takeQrCodePicture(R.id.image_3, R.id.text_view_3, 1, "first");
             }
         });
         Button button4 = (Button) findViewById(R.id.button_4);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_4, R.id.text_view_4, 1, "right");
+                takeQrCodePicture(R.id.image_4, R.id.text_view_4, 1, "second");
             }
         });
 
+        // Third pair
         Button button5 = (Button) findViewById(R.id.button_5);
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_5, R.id.text_view_5, 2, "left");
+                takeQrCodePicture(R.id.image_5, R.id.text_view_5, 2, "first");
             }
         });
         Button button6 = (Button) findViewById(R.id.button_6);
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeQrCodePicture(R.id.image_6, R.id.text_view_6, 2, "right");
+                takeQrCodePicture(R.id.image_6, R.id.text_view_6, 2, "second");
             }
         });
     }
@@ -142,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void takeQrCodePicture(int imageViewId, int textViewId, int pairPosition, String type) {
-        currentImageViewId = imageViewId;
-        currentTextViewId = textViewId;
-        this.currentPairPosition = pairPosition;
-        currentType = type;
+    public void takeQrCodePicture(int imageViewId, int textViewId, int pairNumber, String qrCodePosition) {
+        this.imageViewId = imageViewId;
+        this.textViewId = textViewId;
+        this.pairNumber = pairNumber;
+        this.qrCodePosition = qrCodePosition;
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(MyCaptureActivity.class);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
@@ -166,27 +176,29 @@ public class MainActivity extends AppCompatActivity {
             // Ein Bitmap zur Darstellung erhalten wir so:
             // Bitmap bmp = BitmapFactory.decodeFile(path)
 
-            String code = extras.getString(
-                    Intents.Scan.RESULT);
+            String code = extras.getString(Intents.Scan.RESULT);
 
-            ImageView iv = findViewById(currentImageViewId);
-            TextView tv = findViewById(currentTextViewId);
+            ImageView iv = findViewById(imageViewId);
+            TextView tv = findViewById(textViewId);
             iv.setImageURI(Uri.fromFile(new File(path)));
             tv.setText(code);
-            switch (currentType) {
-                case "left":
-                    qrCodePairs.get(currentPairPosition).setFirstCodeImagePath(path);
-                    qrCodePairs.get(currentPairPosition).setFirstCodeSolutionWord(code);
+            switch (qrCodePosition) {
+                case "first":
+                    qrCodePairs.get(pairNumber).setFirstCodeImagePath(path);
+                    qrCodePairs.get(pairNumber).setFirstCodeSolutionWord(code);
                     break;
-                case "right":
-                    qrCodePairs.get(currentPairPosition).setSecondCodeImagePath(path);
-                    qrCodePairs.get(currentPairPosition).setSecondCodeSolutionWord(code);
+                case "second":
+                    qrCodePairs.get(pairNumber).setSecondCodeImagePath(path);
+                    qrCodePairs.get(pairNumber).setSecondCodeSolutionWord(code);
                     break;
             }
 
         }
     }
 
+    /**
+     * Creates a new entry in the Logbuch App containing the data of the scanned QR-Codes
+     */
     private void log() {
         Intent intent = new Intent("ch.apprun.intent.LOG");
         JSONObject log = new JSONObject();

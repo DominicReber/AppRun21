@@ -1,4 +1,4 @@
-package com.apprun;
+package ch.apprun.memory;
 
 import android.content.Context;
 
