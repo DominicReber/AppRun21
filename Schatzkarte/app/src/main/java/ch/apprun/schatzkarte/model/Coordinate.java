@@ -1,27 +1,27 @@
 package ch.apprun.schatzkarte.model;
 
 public class Coordinate {
-    private double latitude;
-    private double longitude;
+    private int latitude;
+    private int longitude;
 
-    public Coordinate(double latitude, double longitude) {
+    public Coordinate(int latitude, int longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public int getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(int latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public int getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(int longitude) {
         this.longitude = longitude;
     }
 }

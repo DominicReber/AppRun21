@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import ch.apprun.schatzkarte.databinding.ActivityMainBinding;
+import ch.apprun.schatzkarte.util.LogbuchUtil;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.add("Log");
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if ("Log".contentEquals(item.getTitle())) {
+                    LogbuchUtil logbuchUtil = new LogbuchUtil(getApplicationContext());
+                    logbuchUtil.log();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;

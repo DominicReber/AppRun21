@@ -15,7 +15,7 @@ import ch.apprun.schatzkarte.model.Coordinate;
  * @author Kai Moser
  */
 public class SharedPreferencesUtil {
-    private List<String> uuidList;
+    private final List<String> uuidList;
 
     private final SharedPreferences sharedPref;
 
@@ -71,9 +71,9 @@ public class SharedPreferencesUtil {
      * @param coordinate String: [latitude],[longitude]
      * @return Latitude as a double
      */
-    private double getLatitude(String coordinate) {
+    private int getLatitude(String coordinate) {
         if (coordinate != null)
-            return Double.parseDouble(coordinate.split(",")[0]);
+            return Integer.parseInt(coordinate.split(",")[0]);
         return 0;
     }
 
@@ -81,9 +81,9 @@ public class SharedPreferencesUtil {
      * @param coordinate [latitude],[longitude]
      * @return Longitude as a double
      */
-    private double getLongitude(String coordinate) {
+    private int getLongitude(String coordinate) {
         if (coordinate != null)
-            return Double.parseDouble(coordinate.split(",")[1]);
+            return Integer.parseInt(coordinate.split(",")[1]);
         return 0;
     }
 }
