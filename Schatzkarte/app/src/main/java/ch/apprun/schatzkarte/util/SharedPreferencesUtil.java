@@ -15,7 +15,7 @@ import ch.apprun.schatzkarte.model.Coordinate;
  * @author Kai Moser
  */
 public class SharedPreferencesUtil {
-    private final List<String> uuidList;
+    private static final List<String> uuidList = new ArrayList<>();
 
     private final SharedPreferences sharedPref;
 
@@ -24,7 +24,6 @@ public class SharedPreferencesUtil {
      */
     public SharedPreferencesUtil(Context context) {
         sharedPref = context.getSharedPreferences("schatzkarte", Context.MODE_PRIVATE);
-        uuidList = new ArrayList<>();
     }
 
     /**
