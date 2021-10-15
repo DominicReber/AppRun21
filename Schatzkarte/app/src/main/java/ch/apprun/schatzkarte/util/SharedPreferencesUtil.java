@@ -3,14 +3,19 @@ package ch.apprun.schatzkarte.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import ch.apprun.schatzkarte.model.Coordinate;
+
 /**
- * This class helps to save certain properties in the shared preferences
+ * This class helps to save certain properties in the SharedPreferences
  *
  * @author Kai Moser
  */
 public class SharedPreferencesUtil {
-    private static final String PROPERTY_NAME_LATITUDE = "latitude";
-    private static final String PROPERTY_NAME_LONGITUDE = "longitude";
+    private List<String> uuidList;
 
     private final SharedPreferences sharedPref;
 
@@ -19,47 +24,66 @@ public class SharedPreferencesUtil {
      */
     public SharedPreferencesUtil(Context context) {
         sharedPref = context.getSharedPreferences("schatzkarte", Context.MODE_PRIVATE);
+        uuidList = new ArrayList<>();
     }
 
     /**
-     * Saves the given latitude in shared preferences
+     * Saves saves a new coordinate in the SharedPreferences and allocates them with a random UUID. The UUID
+     * is returned and can later be used to retrieve this coordinate.
      *
-     * @param latitude Latitude to be saved in shared preferences
+     * @param coordinate coordinate to be saved
+     * @return random uuid allocated to the saved coordinates
      */
-    public void setLatitude(double latitude) {
-        sharedPref.edit()
-                .putString(PROPERTY_NAME_LATITUDE, String.valueOf(latitude))
-                .apply();
+    public String addCoordinate(Coordinate coordinate) {
+        String uuid = UUID.randomUUID().toString();
+        sharedPref.edit().putString(uuid, coordinate.getLatitude() + "," + coordinate.getLongitude()).apply();
+        uuidList.add(uuid);
+        return uuid;
     }
 
     /**
-     * Retrieves Latitude from shared preferences and returns it
+     * Retrieves the coordinate allocated to the given uuid from the SharedPreferences.
      *
-     * @return Latitude from shared preferences
+     * @param uuid identifier of the coordinate to look for
+     * @return Retrieved coordinate (null if there is no coordinate allocated to the given uuid)
      */
-    public double getLatitude() {
-        String value = sharedPref.getString(PROPERTY_NAME_LATITUDE, null);
-        return Double.parseDouble(value);
+    public Coordinate getCoordinate(String uuid) {
+        String value = sharedPref.getString(uuid, null);
+        if (value != null)
+            return new Coordinate(getLatitude(value), getLongitude(value));
+        return null;
     }
 
     /**
-     * Saves the given Longitude in shared preferences
+     * Retrieves all coordinates from the SharedPreferences and returns them as a list
      *
-     * @param longitude Longitude to be saved in shared preferences
+     * @return List of all coordinates in SharedPreferences
      */
-    public void setLongitude(double longitude) {
-        sharedPref.edit()
-                .putString(PROPERTY_NAME_LONGITUDE, String.valueOf(longitude))
-                .apply();
+    public List<Coordinate> getAllCoordinates() {
+        List<Coordinate> coordinateList = new ArrayList<>();
+        for (String uuid : uuidList) {
+            coordinateList.add(getCoordinate(uuid));
+        }
+        return coordinateList;
     }
 
     /**
-     * Retrieves Longitude from shared preferences and returns it
-     *
-     * @return Longitude from shared preferences
+     * @param coordinate String: [latitude],[longitude]
+     * @return Latitude as a double
      */
-    public double getLongitude() {
-        String value = sharedPref.getString(PROPERTY_NAME_LONGITUDE, null);
-        return Double.parseDouble(value);
+    private double getLatitude(String coordinate) {
+        if (coordinate != null)
+            return Double.parseDouble(coordinate.split(",")[0]);
+        return 0;
+    }
+
+    /**
+     * @param coordinate [latitude],[longitude]
+     * @return Longitude as a double
+     */
+    private double getLongitude(String coordinate) {
+        if (coordinate != null)
+            return Double.parseDouble(coordinate.split(",")[1]);
+        return 0;
     }
 }
