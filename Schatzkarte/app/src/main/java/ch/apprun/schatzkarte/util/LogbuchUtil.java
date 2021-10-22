@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import ch.apprun.schatzkarte.model.Coordinate;
 
 /**
- *
+ * @author Kai Moser
  */
 public class LogbuchUtil {
     private Context context;

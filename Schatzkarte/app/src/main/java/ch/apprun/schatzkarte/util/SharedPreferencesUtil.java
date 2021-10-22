@@ -37,6 +37,7 @@ public class SharedPreferencesUtil {
         String uuid = UUID.randomUUID().toString();
         sharedPref.edit().putString(uuid, coordinate.getLatitude() + "," + coordinate.getLongitude()).apply();
         uuidList.add(uuid);
+        System.out.println("Added " + coordinate.getLatitude() + ", " + coordinate.getLongitude());
         return uuid;
     }
 

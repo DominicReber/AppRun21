@@ -20,7 +20,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/zoom_in"
+        android:layout_margin="16dp" />
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapview"

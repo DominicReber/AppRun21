@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.osmdroid.api.IMapController;
@@ -32,11 +33,14 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.apprun.schatzkarte.databinding.ActivityMainBinding;
+import ch.apprun.schatzkarte.model.Coordinate;
 import ch.apprun.schatzkarte.util.LogbuchUtil;
+import ch.apprun.schatzkarte.util.SharedPreferencesUtil;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private LocationManager locationManager;
     private double currentLatitude;
     private double currentLongitude;
+    private LocationListenerImpl locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +58,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        setContentView(R.layout.activity_main);
+        setContentView(binding.getRoot());
         map = findViewById(R.id.mapview);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMaxZoomLevel(20.0);
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
+
         IMapController controller = map.getController();
         controller.setZoom(18);
+        locationListener = new LocationListenerImpl(controller);
 
         requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
         });
 
         CompassOverlay compassOverlay = new CompassOverlay(this, map);
@@ -82,57 +90,34 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        GeoPoint initialPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+        controller.setCenter(initialPoint);
+        locationListener.setCurrentLatitude(location.getLatitude());
+        locationListener.setCurrentLongitude(location.getLongitude());
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 2000,
-                10, locationListenerGPS);
+                10, locationListener);
 
-        GeoPoint point = new GeoPoint(currentLatitude,currentLongitude);
+//        GeoPoint point = new GeoPoint(currentLatitude,currentLongitude);
+//
 
-        Marker startMarker = new Marker(map);
-        startMarker.setPosition(point);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        map.getOverlays().add(startMarker);
 
-        map.getController().setCenter(point);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.toolbar.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                GeoPoint point = new GeoPoint(locationListener.getCurrentLatitude(), locationListener.getCurrentLongitude());
+                Marker marker = new Marker(map);
+                marker.setPosition(point);
+                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(marker);
+
+                SharedPreferencesUtil sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
+                sharedPreferencesUtil.addCoordinate(new Coordinate(point.getLatitudeE6(), point.getLongitudeE6()));
             }
         });
     }
-
-
-    LocationListener locationListenerGPS = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            currentLatitude=location.getLatitude();
-            currentLongitude=location.getLongitude();
-
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
 
     protected void onResume(){
         super.onResume();
@@ -212,5 +197,4 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
 }
