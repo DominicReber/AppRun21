@@ -42,6 +42,7 @@ import ch.apprun.schatzkarte.util.SharedPreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private MapView map = null;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
