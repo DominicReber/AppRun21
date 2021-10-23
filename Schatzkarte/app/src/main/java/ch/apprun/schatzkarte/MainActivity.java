@@ -42,13 +42,10 @@ import ch.apprun.schatzkarte.util.SharedPreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private MapView map = null;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private LocationManager locationManager;
-    private double currentLatitude;
-    private double currentLongitude;
     private LocationListenerImpl locationListener;
 
     @Override
@@ -62,16 +59,18 @@ public class MainActivity extends AppCompatActivity {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         setContentView(binding.getRoot());
+        //Set Map Settings
         map = findViewById(R.id.mapview);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMaxZoomLevel(20.0);
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
-
         IMapController controller = map.getController();
         controller.setZoom(18);
-        locationListener = new LocationListenerImpl(controller);
 
+        //Initiating LocationListener to get Longtitude and Latitude
+        locationListener = new LocationListenerImpl(controller);
+        //Setting GPS tracking permissions
         requestPermissionsIfNecessary(new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
         });
@@ -79,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         CompassOverlay compassOverlay = new CompassOverlay(this, map);
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);
+        //LocationMananger to set Longtitude an Latitude
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -99,10 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 2000,
                 10, locationListener);
 
-//        GeoPoint point = new GeoPoint(currentLatitude,currentLongitude);
-//
-
-
+        //Floating action Button to set new entry in the Log with current Longtitude and latitude
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-
+    // Checking needed permissions
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
-
+    //Setting permissions
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {
@@ -154,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
-
+    // create menu button for Log
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem menuItem = menu.add("Log");
@@ -175,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
