@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\drawable_selected.xml.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\drawable\\selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\drawable_eraser.png.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\drawable\\eraser.png"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\layout_palette.xml.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\layout\\palette.xml"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    }
+]

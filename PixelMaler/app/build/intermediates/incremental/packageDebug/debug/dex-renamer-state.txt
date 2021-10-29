@@ -1,0 +1,4 @@
+#Fri Sep 03 14:26:29 CEST 2021
+base.0=/Users/guillaumemarisa/AndroidStudioProjects/appquest-apps/appquest-mobile-apps/PixelMaler-Vorlage/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Fri Sep 03 14:26:29 CEST 2021
+0.baseType=DIRECTORY
+0.base=/Users/guillaumemarisa/AndroidStudioProjects/appquest-apps/appquest-mobile-apps/PixelMaler-Vorlage/app/build/intermediates/transforms/dexMerger/debug/0
+0.path=classes.dex
+0.set=DEX
+count=1

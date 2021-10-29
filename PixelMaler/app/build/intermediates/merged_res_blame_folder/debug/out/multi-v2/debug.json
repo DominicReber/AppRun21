@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "4,3,6,8,7,5",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "111,56,206,284,246,164",
+                        "endColumns": "52,54,39,39,37,41",
+                        "endOffsets": "159,106,241,319,279,201"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "150,203,258,298,338,376",
+                        "endColumns": "52,54,39,39,37,41",
+                        "endOffsets": "198,253,293,333,371,413"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\dimens.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "36",
+                        "endOffsets": "48"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "113",
+                        "endColumns": "36",
+                        "endOffsets": "145"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\colors.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "56",
+                        "endColumns": "57",
+                        "endOffsets": "109"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "57",
+                        "endOffsets": "108"
+                    }
+                }
+            ]
+        }
+    ]
+}
