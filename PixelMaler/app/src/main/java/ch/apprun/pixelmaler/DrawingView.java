@@ -48,10 +48,29 @@ public class DrawingView extends View {
         final int stepSizeX = (int) Math.ceil((double) maxX / GRID_SIZE);
         final int stepSizeY = (int) Math.ceil((double) maxY / GRID_SIZE);
 
-        // TODO Zeichne das Gitter
+        drawGrid(canvas, 13, 13);
 
         // Zeichnet einen Pfad der dem Finger folgt
         canvas.drawPath(drawPath, drawPaint);
+    }
+
+    private void drawGrid(Canvas canvas, int height, int width) {
+        int drawingViewWidth = getWidth();
+        int drawingViewHeight = getHeight();
+
+        int pixelWidth = drawingViewWidth / width;
+        int pixelHeight = drawingViewHeight / height;
+
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+
+        for (int i = 0; i < width; i++) {
+            canvas.drawLine(i*pixelWidth, 0, i*pixelWidth, height*pixelHeight, paint);
+        }
+
+        for (int i = 0; i < height; i++) {
+            canvas.drawLine(0, i*pixelHeight, width*pixelWidth, i*pixelHeight, paint);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
