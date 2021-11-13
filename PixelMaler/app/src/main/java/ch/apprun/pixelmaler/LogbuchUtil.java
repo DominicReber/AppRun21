@@ -51,8 +51,8 @@ public class LogbuchUtil {
         JSONArray solutionJson = new JSONArray();
         for (Pixel pixel : pixels) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("y", '"' + pixel.getY() + '"');
-            jsonObject.put("x", '"' + pixel.getX() + '"');
+            jsonObject.put("y", pixel.getY());
+            jsonObject.put("x", pixel.getX());
             jsonObject.put("color", pixel.getColor());
             solutionJson.put(jsonObject);
         }
