@@ -137,29 +137,33 @@ public class DrawingView extends View {
                 for (TouchPoint point : touchPoints) {
                     Pixel pixel = calculatePixel(point.getX(), point.getY());
                     pixel.setColor(color);
-                    switch (color) {
-                        case "#FF1364b7": // defaultColor, blue
-                            pixel.setPaint(bluePaint);
-                            break;
-                        case "#ff13b717":
-                            pixel.setPaint(greenPaint);
-                            break;
-                        case "#FFffea00":
-                            pixel.setPaint(yellowPaint);
-                            break;
-                        case "#FFD90505":
-                            pixel.setPaint(redPaint);
-                            break;
-                        case "#FF000000":
-                            pixel.setPaint(blackPaint);
-                            break;
-                        case "#FFB7B7B7":
-                            pixel.setPaint(greyPaint);
-                            break;
-                        default:
-                            pixel.setPaint(blackPaint);
+                    if (!isErasing) {
+                        switch (color) {
+                            case "#FF1364b7":
+                                pixel.setPaint(bluePaint);
+                                break;
+                            case "#ff13b717":
+                                pixel.setPaint(greenPaint);
+                                break;
+                            case "#FFffea00":
+                                pixel.setPaint(yellowPaint);
+                                break;
+                            case "#FFD90505":
+                                pixel.setPaint(redPaint);
+                                break;
+                            case "#FF000000":
+                                pixel.setPaint(blackPaint);
+                                break;
+                            case "#FFB7B7B7":
+                                pixel.setPaint(greyPaint);
+                                break;
+                            default:
+
+                        }
+                        setPixel(pixel);
+                    } else {
+                        removePixel(pixel.getX(), pixel.getY());
                     }
-                    setPixel(pixel);
                 }
                 touchPoints.clear();
 
@@ -182,6 +186,15 @@ public class DrawingView extends View {
             }
         }
         pixels.add(pixel);
+    }
+
+    private void removePixel(int x, int y) {
+        for (int i = 0; i < pixels.size(); i++) {
+            if (pixels.get(i).getX() == x && pixels.get(i).getY() == y) {
+                pixels.remove(i);
+                break;
+            }
+        }
     }
 
     private Pixel calculatePixel(float touchX, float touchY) {
