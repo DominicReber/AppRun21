@@ -1,16 +1,33 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\values_values.arsc.flat",
+            "outputFile": "C:\\Users\\reber\\Documents\\AppRun21\\PixelMaler\\app\\build\\intermediates\\merged_res\\debug\\values_values.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "C:\\Users\\reber\\Documents\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\colors.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endColumns": "57",
+                        "endOffsets": "112"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "57",
+                        "endOffsets": "108"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\reber\\Documents\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "4,3,6,8,7,5",
                         "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "111,56,206,284,246,164",
+                        "startOffsets": "115,59,212,292,253,169",
                         "endColumns": "52,54,39,39,37,41",
-                        "endOffsets": "159,106,241,319,279,201"
+                        "endOffsets": "163,109,247,327,286,206"
                     },
                     "to": {
                         "startLines": "4,5,6,7,8,9",
@@ -21,13 +38,13 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\dimens.xml",
+                    "source": "C:\\Users\\reber\\Documents\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\dimens.xml",
                     "from": {
                         "startLines": "1",
                         "startColumns": "4",
-                        "startOffsets": "16",
+                        "startOffsets": "17",
                         "endColumns": "36",
-                        "endOffsets": "48"
+                        "endOffsets": "49"
                     },
                     "to": {
                         "startLines": "3",
@@ -35,23 +52,6 @@
                         "startOffsets": "113",
                         "endColumns": "36",
                         "endOffsets": "145"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\moser\\AndroidStudioProjects\\AppRun21\\PixelMaler\\app\\src\\main\\res\\values\\colors.xml",
-                    "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "56",
-                        "endColumns": "57",
-                        "endOffsets": "109"
-                    },
-                    "to": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "57",
-                        "endOffsets": "108"
                     }
                 }
             ]

@@ -39,7 +39,7 @@ public class DrawingView extends View {
     private int pixelWidth;
     private int pixelHeight;
 
-    private List<Pixel> pixels = new ArrayList<>();
+    protected List<Pixel> pixels = new ArrayList<>();
     private List<TouchPoint> touchPoints = new ArrayList<>();
 
     public DrawingView(Context context, AttributeSet attrs) {
@@ -123,19 +123,15 @@ public class DrawingView extends View {
                 drawPath.moveTo(touchX, touchY);
                 touchPoints.add(new TouchPoint(touchX, touchY));
 
-                // TODO wir müssen uns die berührten Punkte zwischenspeichern
-
                 break;
             case MotionEvent.ACTION_MOVE:
                 drawPath.lineTo(touchX, touchY);
                 touchPoints.add(new TouchPoint(touchX, touchY));
 
-                // TODO wir müssen uns die berührten Punkte zwischenspeichern
-
                 break;
             case MotionEvent.ACTION_UP:
 
-                // TODO Jetzt können wir die zwischengespeicherten Punkte auf das
+                // Jetzt können wir die zwischengespeicherten Punkte auf das
                 // Gitter umrechnen und zeichnen, bzw. löschen, falls wir isErasing
                 // true ist (optional)
                 for (TouchPoint point : touchPoints) {
@@ -194,11 +190,14 @@ public class DrawingView extends View {
         return new Pixel(x, y);
     }
 
+    public List<Pixel> getPixels() {
+        return pixels;
+    }
+
     public void startNew() {
-
-        // TODO Gitter löschen
-
-        invalidate();
+        pixels.clear();
+        touchPoints.clear();
+        drawPath.reset();
     }
 
     public void setErase(boolean isErase) {

@@ -4,6 +4,10 @@ ch/apprun/pixelmaler/SquareLayout.java
  ch.apprun.pixelmaler.SquareLayout
 ch/apprun/pixelmaler/TouchPoint.java
  ch.apprun.pixelmaler.TouchPoint
+ch/apprun/pixelmaler/Pixel.java
+ ch.apprun.pixelmaler.Pixel
+ch/apprun/pixelmaler/LogbuchUtil.java
+ ch.apprun.pixelmaler.LogbuchUtil
 ch/apprun/pixelmaler/DrawingView.java
  ch.apprun.pixelmaler.DrawingView
 ch/apprun/pixelmaler/MainActivity.java
@@ -12,5 +16,3 @@ ch/apprun/pixelmaler/MainActivity.java
  ch.apprun.pixelmaler.MainActivity$2
  ch.apprun.pixelmaler.MainActivity$3
  ch.apprun.pixelmaler.MainActivity$4
-ch/apprun/pixelmaler/Pixel.java
- ch.apprun.pixelmaler.Pixel

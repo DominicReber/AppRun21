@@ -94,7 +94,9 @@ public class MainActivity extends Activity {
     }
 
     private void onLogAction() {
-        // TODO
+        LogbuchUtil logbuchUtil = new LogbuchUtil(getApplicationContext());
+        logbuchUtil.log(drawingView.pixels);
     }
-
 }
+
+
