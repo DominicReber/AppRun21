@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         JSONObject log = new JSONObject();
 
         try {
-            log.put("task", "MetallDetektor");
+            log.put("task", "Metalldetektor");
             log.put("solution", qrCode);
         } catch (JSONException e) {
         }
