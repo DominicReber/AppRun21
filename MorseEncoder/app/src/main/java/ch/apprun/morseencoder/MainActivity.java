@@ -56,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
                         s.append(p.getTextRepresentation());
                     }
                     System.out.println(s);
+
+                    morsing(code);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                morsing(textInput.getText().toString());
+
             }
         });
 
@@ -76,19 +78,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void morsing(String textToMorse) {
-
-        for (int i = 0; i < textToMorse.length(); i++ ){
-            char morseSymbol = textToMorse.charAt(i);
-            if (morseSymbol == 'a') {
-                threadHandler.post(new morseLoopWhite());
-
-
-            } else if (morseSymbol == 'b') {
-                threadHandler.post(new morseLoopBlack());
+    public void morsing(List<Primitive> code) {
+        threadHandler.post(new morseLoopBlack(1));
+        for (Primitive p : code) {
+            if (p.isLightOn()) {
+                threadHandler.post(new morseLoopWhite(p.getSignalLengthInDits()));
+            } else {
+                threadHandler.post(new morseLoopBlack(p.getSignalLengthInDits()));
             }
-
         }
+        threadHandler.post(new morseLoopBlack(1));
+
+//        for (int i = 0; i < textToMorse.length(); i++ ){
+//            char morseSymbol = textToMorse.charAt(i);
+//            if (morseSymbol == 'a') {
+//                threadHandler.post(new morseLoopWhite());
+//
+//
+//            } else if (morseSymbol == 'b') {
+//                threadHandler.post(new morseLoopBlack());
+//            }
+//
+//        }
 
     }
 
@@ -123,20 +134,32 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     class morseLoopWhite implements Runnable {
+        private int signalLengthInDits;
+
+        public morseLoopWhite(int signalLengthInDits) {
+            this.signalLengthInDits = signalLengthInDits;
+        }
+
         @Override
         public void run() {
             View pageLayout = findViewById(R.id.page_layout);
             pageLayout.setBackgroundColor(Color.WHITE);
-            SystemClock.sleep(1000);
+            SystemClock.sleep(500*signalLengthInDits);
         }
     }
 
     class morseLoopBlack implements Runnable {
+        private int signalLengthInDits;
+
+        public morseLoopBlack(int signalLengthInDits) {
+            this.signalLengthInDits = signalLengthInDits;
+        }
+
         @Override
         public void run() {
             View pageLayout = findViewById(R.id.page_layout);
             pageLayout.setBackgroundColor(Color.BLACK);
-            SystemClock.sleep(1000);
+            SystemClock.sleep(500*signalLengthInDits);
         }
     }
 }
