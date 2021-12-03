@@ -45,13 +45,18 @@ public class MorseEncoder {
         characterToSymbolMap.put(' ', new Primitive[]{WORD_GAP});
     }
 
+    /**
+     * Converts a text into a morse code
+     *
+     * @param text Text to be converted
+     * @return Morse code as a list of Primitives
+     * @throws Exception When there is an unknown character
+     */
     public List<Primitive> textToCode(String text) throws Exception {
         List<Primitive> code = new ArrayList<>();
 
-        for (int characterIndex = 0; characterIndex < text.length(); ++characterIndex) {
-            char character = text.charAt(characterIndex);
-
-            Primitive[] symbol = characterToSymbol(character);
+        for (char c : text.toCharArray()) {
+            Primitive[] symbol = characterToSymbol(c);
 
             // add space between symbols if necessary
             if (code.size() > 0 && code.get(code.size() - 1).isLightOn() && symbol[0].isLightOn()) {

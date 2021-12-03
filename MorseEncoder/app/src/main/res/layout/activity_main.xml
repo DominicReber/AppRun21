@@ -8,33 +8,49 @@
     tools:context=".MainActivity"
     android:id="@+id/page_layout">
 
-    <EditText
-        android:id="@+id/txt_toMorse"
-        android:layout_width="313dp"
-        android:layout_height="71dp"
-        android:layout_marginBottom="64dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Text to morse"
-        android:hyphenationFrequency="normal"
-        android:importantForAutofill="no"
-        android:inputType="textLongMessage"
-        android:textColor="#000000"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/btn_start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayoutLogbuch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Morse"
-        android:visibility="visible"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/logbuch_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_logbuch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/logbuch_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_toMorse" />
+        tools:layout_editor_absoluteX="43dp"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/text_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_encode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/encode_button" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

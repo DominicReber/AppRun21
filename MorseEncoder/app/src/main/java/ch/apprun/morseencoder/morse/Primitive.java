@@ -7,9 +7,9 @@ public class Primitive {
     static final Primitive SYMBOL_GAP = new Primitive("   ", false, 3);
     static final Primitive WORD_GAP = new Primitive(" / ", false, 7);
 
-    private String textRepresentation;
-    private boolean lightOn;
-    private int signalLengthInDits;
+    private final String textRepresentation;
+    private final boolean lightOn;
+    private final int signalLengthInDits;
 
     private Primitive(String textRepresentation, boolean lightOn, int signalLengthInDits) {
         this.textRepresentation = textRepresentation;

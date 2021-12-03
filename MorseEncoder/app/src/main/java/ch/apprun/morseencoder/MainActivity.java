@@ -2,6 +2,15 @@ package ch.apprun.morseencoder;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.List;
+
+import ch.apprun.morseencoder.morse.MorseEncoder;
+import ch.apprun.morseencoder.morse.Primitive;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
@@ -10,6 +19,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.List;
+
+import ch.apprun.morseencoder.morse.MorseEncoder;
+import ch.apprun.morseencoder.morse.Primitive;
 
 public class MainActivity extends AppCompatActivity {
     private HandlerThread handlerThread = new HandlerThread("HandlerThread");
@@ -21,13 +38,40 @@ public class MainActivity extends AppCompatActivity {
         handlerThread.start();
         threadHandler = new Handler(handlerThread.getLooper());
         setContentView(R.layout.activity_main);
-        Button start_button = findViewById(R.id.btn_start);
-        EditText textToMorse = findViewById(R.id.txt_toMorse);
-        //OnClick Event for morsing start button
-        start_button.setOnClickListener(new View.OnClickListener() {
+
+        Button btnEncode = (Button) findViewById(R.id.btn_encode);
+
+        btnEncode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                morsing(textToMorse.getText().toString());
+                EditText textInput = (EditText) findViewById(R.id.text_input);
+                String text = textInput.getText().toString().toUpperCase();
+
+                try {
+                    MorseEncoder morseEncoder = new MorseEncoder();
+                    List<Primitive> code = morseEncoder.textToCode(text);
+
+                    StringBuilder s = new StringBuilder();
+                    for (Primitive p : code) {
+                        s.append(p.getTextRepresentation());
+                    }
+                    System.out.println(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                morsing(textInput.getText().toString());
+            }
+        });
+
+        Button btnLogbuch = (Button) findViewById(R.id.btn_logbuch);
+
+        btnLogbuch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText textInput = (EditText) findViewById(R.id.logbuch_input);
+                String text = textInput.getText().toString();
+                LogbuchUtil logbuchUtil = new LogbuchUtil(getApplicationContext());
+                logbuchUtil.log(text);
             }
         });
     }

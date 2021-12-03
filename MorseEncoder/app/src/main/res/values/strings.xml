@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MorseEncoder</string>
+    <string name="encode_button">Encode</string>
+    <string name="logbuch_button">Log</string>
 </resources>
