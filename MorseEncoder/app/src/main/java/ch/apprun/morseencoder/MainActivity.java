@@ -1,14 +1,98 @@
 package ch.apprun.morseencoder;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.SystemClock;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-
 public class MainActivity extends AppCompatActivity {
+    private HandlerThread handlerThread = new HandlerThread("HandlerThread");
+    private Handler threadHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handlerThread.start();
+        threadHandler = new Handler(handlerThread.getLooper());
         setContentView(R.layout.activity_main);
+        Button start_button = findViewById(R.id.btn_start);
+        EditText textToMorse = findViewById(R.id.txt_toMorse);
+        //OnClick Event for morsing start button
+        start_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                morsing(textToMorse.getText().toString());
+            }
+        });
+    }
+
+    public void morsing(String textToMorse) {
+
+        for (int i = 0; i < textToMorse.length(); i++ ){
+            char morseSymbol = textToMorse.charAt(i);
+            if (morseSymbol == 'a') {
+                threadHandler.post(new morseLoopWhite());
+
+
+            } else if (morseSymbol == 'b') {
+                threadHandler.post(new morseLoopBlack());
+            }
+
+        }
+
+    }
+
+    /*class hideElements implements Runnable{
+        @Override
+        public void run() {
+            Button start_button = findViewById(R.id.btn_start);
+            EditText txt_toMorse = findViewById(R.id.txt_toMorse);
+            start_button.setVisibility(start_button.GONE);
+            txt_toMorse.setVisibility(txt_toMorse.GONE);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+
+    /*class showElements implements Runnable{
+        @Override
+        public void run() {
+            Button start_button = findViewById(R.id.btn_start);
+            EditText txt_toMorse = findViewById(R.id.txt_toMorse);
+            start_button.setVisibility(start_button.VISIBLE);
+            txt_toMorse.setVisibility(txt_toMorse.VISIBLE);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+
+    class morseLoopWhite implements Runnable {
+        @Override
+        public void run() {
+            View pageLayout = findViewById(R.id.page_layout);
+            pageLayout.setBackgroundColor(Color.WHITE);
+            SystemClock.sleep(1000);
+        }
+    }
+
+    class morseLoopBlack implements Runnable {
+        @Override
+        public void run() {
+            View pageLayout = findViewById(R.id.page_layout);
+            pageLayout.setBackgroundColor(Color.BLACK);
+            SystemClock.sleep(1000);
+        }
     }
 }

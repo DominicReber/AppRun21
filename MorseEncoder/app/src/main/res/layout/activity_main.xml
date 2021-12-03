@@ -4,15 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#000000"
+    tools:context=".MainActivity"
+    android:id="@+id/page_layout">
 
-    <TextView
+    <EditText
+        android:id="@+id/txt_toMorse"
+        android:layout_width="313dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="64dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Text to morse"
+        android:hyphenationFrequency="normal"
+        android:importantForAutofill="no"
+        android:inputType="textLongMessage"
+        android:textColor="#000000"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/btn_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Start Morse"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_toMorse" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
