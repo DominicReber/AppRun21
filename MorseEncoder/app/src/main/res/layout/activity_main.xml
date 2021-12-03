@@ -20,7 +20,9 @@
             android:id="@+id/logbuch_input"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_logbuch"
@@ -43,7 +45,9 @@
             android:id="@+id/text_input"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/black" />
 
         <Button
             android:id="@+id/btn_encode"
